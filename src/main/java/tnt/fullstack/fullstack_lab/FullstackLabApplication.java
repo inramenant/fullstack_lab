@@ -8,8 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
+import tnt.fullstack.fullstack_lab.entity.AppUser;
 import tnt.fullstack.fullstack_lab.entity.Car;
 import tnt.fullstack.fullstack_lab.entity.Owner;
+import tnt.fullstack.fullstack_lab.repository.AppUserRepo;
 import tnt.fullstack.fullstack_lab.repository.CarRepo;
 import tnt.fullstack.fullstack_lab.repository.OwnerRepo;
 
@@ -21,9 +23,12 @@ public class FullstackLabApplication implements CommandLineRunner {
 
     private final OwnerRepo ownerRepo;
     private final CarRepo repository;
-    public FullstackLabApplication(CarRepo repository, OwnerRepo ownerRepo) {
+    private final AppUserRepo appUserRepo;
+
+    public FullstackLabApplication(CarRepo repository, OwnerRepo ownerRepo, AppUserRepo appUserRepo) {
         this.repository = repository;
         this.ownerRepo = ownerRepo;
+        this.appUserRepo = appUserRepo;
     }
 
 
@@ -49,5 +54,14 @@ public class FullstackLabApplication implements CommandLineRunner {
         for(Car car : repository.findAll()){
             logger.info("brand: {}, model: {}", car.getBrand(), car.getModel());
         }
+
+        appUserRepo.save(new AppUser(
+                "user",
+                "$2a$10$NVM0n8ElaRgg7zWO1CxUdei7vWoPg91Lz2aYavh9.f9q0e4bRadue",
+                "USER"));
+        appUserRepo.save(new AppUser(
+                "admin",
+                "$2a$10$8cjz47bjbR4Mn8GMg9IZx.vyjhLXR/SKKMSZ9.mP9vpMu0ssKi8GW",
+                "ADMIN"));
     }
 }
